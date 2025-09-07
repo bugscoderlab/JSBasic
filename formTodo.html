@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+<input type="button" onclick="return delTask()" value="Delete">
+<div id="pending"></div><br>
+<div id="wip"></div><br>
+<div id="done"></div><br>
+
+<form action="/" onsubmit="return addTask(event)">
+    <input type="text" value="value inside textbox" name="" id="task">
+    <select id="status">
+        <option value="pending">Pending</option>
+        <option value="wip">WIP</option>
+        <option value="done">Done</option>
+    </select>
+    <input type="submit" value="Submit">
+</form>
+
+<script>
+const todoList = [
+    {"task": "task 1", "status": "wip"},
+    {"task": "task 2", "status": "pending"},
+    {"task": "task 3", "status": "done"},
+]
+
+const todoView = (status) => {
+    let output = status+"<br>"+"=".repeat(status.length)+"<br>"
+
+    let y = 0;
+    for (let x in todoList) {
+        if (todoList[x]["status"] != status) { continue; }
+
+        output += "<input type='checkbox' name='delBtn' value='"+x+"'> ";
+        output += "["+ (++y) +"] "+todoList[x].task+" "+todoList[x].status+"<br>"
+    }
+    
+    document.getElementById(status).innerHTML = output
+}
+
+const todoAdd = (task, status = "pending") => {
+    if (status != "wip" && status != "pending" && status != "done") { return; }
+
+    todoList.push({
+        "task": task,
+        "status": status
+    })
+}
+
+const todoDel = (index) => {
+    todoList.splice(index, 1)
+}
+
+const refreshView = () => {
+    todoView("pending")
+    todoView("wip")
+    todoView("done")
+}
+
+refreshView();
+
+const addTask = (e) => {
+    e.preventDefault();
+    
+    const task = document.getElementById("task").value
+    const status = document.getElementById("status").value
+
+    todoAdd(task, status)
+    refreshView();
+}
+
+const delTask = (e) => {
+    document.getElementsByName("delBtn").forEach((val, key) => {
+        if (!val.checked) { return; }
+
+        todoDel(val.value);
+        refreshView();
+    })
+}
+</script>
+
+</body>
+</html>
