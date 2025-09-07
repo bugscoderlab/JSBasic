@@ -7,8 +7,22 @@
 </head>
 <body>
 
+    <form action="/" onsubmit="return test(event)">
+        <input type="text" value="value inside textbox" name="" id="txtBox">
+        <input type="submit" value="Submit">
+    </form>
 
-<script src="array.js"></script>
+<script>
+function test(e) {
+    e.preventDefault();
+    let txtVal = document.getElementById("txtBox").name
+    console.log(txtVal)
+}
+</script>
+
+<script src="todo.js"></script>
+<!-- <script src="tryError.js"></script> -->
+<!-- <script src="array.js"></script> -->
 <!-- <script src="password.js"></script> -->
 <!-- <script src="variable.js"></script> -->
 <!-- <script src="script.js"></script>
